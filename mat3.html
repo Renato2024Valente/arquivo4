@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problematização - 7º Ano</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Problematização - 7º Ano</h1>
+
+    <!-- 1º Bimestre - Frações -->
+    <div class="question">
+        <h3>1º Bimestre: Frações</h3>
+        <p>Problema: João comeu 2/5 de uma pizza e Maria comeu 1/4 da mesma pizza. Quanto da pizza eles comeram juntos?</p>
+        <button onclick="showAnswer(1)">Mostrar Resposta</button>
+        <div id="answer1" class="answer">
+            <p>Para somar frações, devemos ter denominadores iguais.</p>
+            <p>- 2/5 e 1/4 têm denominadores diferentes. O mínimo múltiplo comum entre 5 e 4 é 20.</p>
+            <p>- Transformando as frações: <br>
+               2/5 = 8/20 e 1/4 = 5/20</p>
+            <p>- Agora, somamos os numeradores: 8 + 5 = 13.</p>
+            <p>- Portanto, João e Maria comeram juntos 13/20 da pizza.</p>
+        </div>
+    </div>
+
+    <!-- 2º Bimestre - Números Decimais -->
+    <div class="question">
+        <h3>2º Bimestre: Números Decimais</h3>
+        <p>Problema: Maria comprou 3,5 kg de frutas e João comprou 2,75 kg. Quanto eles compraram juntos?</p>
+        <button onclick="showAnswer(2)">Mostrar Resposta</button>
+        <div id="answer2" class="answer">
+            <p>Para somar números decimais, alinhamos as vírgulas e somamos os valores.</p>
+            <p>3,50 + 2,75 = 6,25</p>
+            <p>Portanto, juntos, Maria e João compraram 6,25 kg de frutas.</p>
+        </div>
+    </div>
+
+    <!-- 3º Bimestre - Proporções -->
+    <div class="question">
+        <h3>3º Bimestre: Proporções</h3>
+        <p>Problema: Em uma receita de bolo, a proporção de açúcar para farinha é de 2:3. Se foram usados 600g de farinha, quantos gramas de açúcar foram usados?</p>
+        <button onclick="showAnswer(3)">Mostrar Resposta</button>
+        <div id="answer3" class="answer">
+            <p>Sabemos que a proporção de açúcar para farinha é 2:3. Isso significa que para cada 3 partes de farinha, usamos 2 partes de açúcar.</p>
+            <p>Se 3 partes correspondem a 600g, cada parte equivale a 600 / 3 = 200g.</p>
+            <p>Logo, 2 partes de açúcar correspondem a 2 * 200 = 400g de açúcar.</p>
+        </div>
+    </div>
+
+    <!-- 4º Bimestre - Porcentagem -->
+    <div class="question">
+        <h3>4º Bimestre: Porcentagem</h3>
+        <p>Problema: Uma loja está oferecendo um desconto de 20% em um produto que custa R$ 250,00. Qual será o valor do produto com desconto?</p>
+        <button onclick="showAnswer(4)">Mostrar Resposta</button>
+        <div id="answer4" class="answer">
+            <p>Para calcular o desconto, multiplicamos o valor do produto pela porcentagem de desconto.</p>
+            <p>20% de R$ 250,00 é 250 * 0,20 = R$ 50,00.</p>
+            <p>Agora, subtraímos o valor do desconto: 250 - 50 = R$ 200,00.</p>
+            <p>Portanto, o produto custará R$ 200,00 com o desconto.</p>
+        </div>
+    </div>
+
+    <script>
+        function showAnswer(answerId) {
+            var answer = document.getElementById('answer' + answerId);
+            if (answer.style.display === 'none' || answer.style.display === '') {
+                answer.style.display = 'block';
+            } else {
+                answer.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

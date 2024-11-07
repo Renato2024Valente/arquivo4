@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Matemática - Incógnitas e Variáveis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            margin: 20px;
+        }
+        .question {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e0f7fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Introdução sobre Incógnitas e Variáveis</h1>
+    <p>
+        Incógnitas são valores desconhecidos que precisam ser determinados dentro de um problema específico. Já uma variável é um valor que pode assumir diferentes valores, dependendo do contexto.
+        A seguir, você encontrará alguns problemas que envolvem esses conceitos. Clique no botão em cada questão para revelar a resposta.
+    </p>
+
+    <div class="question">
+        <h3>1. Promoção da Loja</h3>
+        <p>A loja preferida de Sofia lançou uma promoção. Ela comprou uma saia e uma blusa por R$ 60,00, sendo que a saia custa R$ 20,00 a mais que a blusa. Escreva essa compra em linguagem matemática, indicando se representa uma incógnita ou variável.</p>
+        <button onclick="toggleAnswer('answer1')">Ver Resposta</button>
+        <div id="answer1" class="answer">
+            <p>Podemos representar o preço da blusa por <b>x</b>. Portanto, a saia custa <b>x + 20</b>. Como o valor total é R$ 60,00, temos:</p>
+            <pre>
+x + x + 20 = 60
+2x + 20 = 60
+x = 20
+            </pre>
+            <p>Aqui, <b>x</b> é uma incógnita, pois a única resposta possível é <b>x = 20</b>.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <h3>2. Idades de Carlos e sua irmã</h3>
+        <p>Carlos tem uma irmã mais nova. A soma das idades deles é 24 anos. Represente as idades em linguagem matemática e indique se representam uma incógnita ou variável.</p>
+        <button onclick="toggleAnswer('answer2')">Ver Resposta</button>
+        <div id="answer2" class="answer">
+            <p>Seja <b>x</b> a idade de Carlos e <b>y</b> a idade de sua irmã. Temos:</p>
+            <pre>
+x + y = 24
+            </pre>
+            <p>Essa é uma expressão com duas variáveis, pois existem várias respostas possíveis:</p>
+            <pre>
+x = 13 e y = 11
+x = 14 e y = 10
+x = 15 e y = 9
+            </pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h3>3. Número Natural e seu Sucessor</h3>
+        <p>Considere um número natural. Ao somar esse número com seu sucessor, obtemos 25. Represente esse número em linguagem matemática e indique se representa uma incógnita ou variável.</p>
+        <button onclick="toggleAnswer('answer3')">Ver Resposta</button>
+        <div id="answer3" class="answer">
+            <p>Seja <b>N</b> o número natural. O sucessor de <b>N</b> é <b>N + 1</b>. Assim:</p>
+            <pre>
+N + N + 1 = 25
+2N + 1 = 25
+N = 12
+            </pre>
+            <p>Aqui, <b>N</b> é uma incógnita, pois a única resposta possível é <b>N = 12</b>.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(answerId) {
+            const answer = document.getElementById(answerId);
+            answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

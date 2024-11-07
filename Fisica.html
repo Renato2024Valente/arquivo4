@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado de Física - 2º Bimestre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .question-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .answer-detail {
+            margin-top: 10px;
+            background-color: #e0f7fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulado de Física - 2º Bimestre</h1>
+    <div id="questions"></div>
+    <button onclick="calculateScore()">Finalizar Simulado</button>
+
+    <div class="result hidden" id="result">
+        <h2>Sua Nota: <span id="score"></span>%</h2>
+        <input type="password" id="password" placeholder="Digite a senha para ver as respostas">
+        <button onclick="showAnswers()">Ver Respostas</button>
+        <div id="answerDetails" class="hidden"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "1. Qual é a unidade de medida da força no SI?", 
+              options: ["a) Joule", "b) Watt", "c) Newton", "d) Pascal", "e) Volt"], answer: 2 },
+            { question: "2. O que é a aceleração da gravidade na Terra?", 
+              options: ["a) 9,8 m/s²", "b) 10 m/s²", "c) 8,9 m/s²", "d) 11 m/s²", "e) 9,2 m/s²"], answer: 0 },
+            { question: "3. Qual é a fórmula da energia cinética?", 
+              options: ["a) mv²", "b) mv", "c) (mv²)/2", "d) mgh", "e) mg"], answer: 2 },
+            { question: "4. Em um MRU, o que se mantém constante?", 
+              options: ["a) Velocidade", "b) Aceleração", "c) Força", "d) Energia", "e) Deslocamento"], answer: 0 },
+            { question: "5. Qual é a unidade de medida de trabalho no SI?", 
+              options: ["a) Newton", "b) Joule", "c) Watt", "d) Pascal", "e) Ampere"], answer: 1 },
+            { question: "6. O que define a 1ª Lei de Newton?", 
+              options: ["a) Inércia", "b) Ação e Reação", "c) Energia Cinética", "d) Força Centrípeta", "e) Impulso"], answer: 0 },
+            { question: "7. O que é potência?", 
+              options: ["a) Energia por tempo", "b) Força vezes aceleração", "c) Deslocamento por tempo", "d) Energia potencial", "e) Aceleração por tempo"], answer: 0 },
+            { question: "8. Qual é a fórmula da energia potencial gravitacional?", 
+              options: ["a) mgh", "b) mv²", "c) mgh/2", "d) mgh²", "e) mg"], answer: 0 },
+            { question: "9. O que é impulso?", 
+              options: ["a) Força vezes tempo", "b) Massa vezes aceleração", "c) Deslocamento por tempo", "d) Velocidade vezes tempo", "e) Força por deslocamento"], answer: 0 },
+            { question: "10. A unidade de medida de potência no SI é:", 
+              options: ["a) Joule", "b) Newton", "c) Watt", "d) Pascal", "e) Ohm"], answer: 2 },
+            { question: "11. Qual é a velocidade da luz no vácuo?", 
+              options: ["a) 300.000 km/h", "b) 300.000 km/s", "c) 150.000 km/s", "d) 150.000 km/h", "e) 100.000 km/s"], answer: 1 },
+            { question: "12. Qual é a definição de momento linear?", 
+              options: ["a) mv", "b) mgh", "c) mg", "d) mv²", "e) v/t"], answer: 0 },
+            { question: "13. O que é um vetor?", 
+              options: ["a) Grandeza com módulo e direção", "b) Apenas módulo", "c) Apenas direção", "d) Apenas velocidade", "e) Apenas força"], answer: 0 },
+            { question: "14. Em uma colisão elástica, o que se conserva?", 
+              options: ["a) Energia Cinética", "b) Força", "c) Aceleração", "d) Massa", "e) Potência"], answer: 0 },
+            { question: "15. O que é força centrípeta?", 
+              options: ["a) Força para o centro de uma trajetória circular", "b) Força que se opõe ao movimento", "c) Força resultante em um corpo parado", "d) Força que causa aceleração negativa", "e) Força que gera impulso"], answer: 0 },
+            { question: "16. A frequência é medida em:", 
+              options: ["a) Hertz", "b) Joules", "c) Newtons", "d) Watts", "e) Pascals"], answer: 0 },
+            { question: "17. A 2ª Lei de Newton é:", 
+              options: ["a) F = ma", "b) F = mv", "c) F = mgh", "d) F = mv²", "e) F = p/t"], answer: 0 },
+            { question: "18. A terceira lei de Newton descreve:", 
+              options: ["a) Ação e Reação", "b) Inércia", "c) Força Centrípeta", "d) Aceleração Constante", "e) Movimento Circular"], answer: 0 },
+            { question: "19. Qual é a unidade de medida de pressão?", 
+              options: ["a) Pascal", "b) Joule", "c) Watt", "d) Newton", "e) Ampere"], answer: 0 },
+            { question: "20. Um ciclo completo de uma onda é chamado de:", 
+              options: ["a) Período", "b) Amplitude", "c) Frequência", "d) Comprimento", "e) Deslocamento"], answer: 0 },
+              { question: "31. O que é um corpo em equilíbrio estático?", 
+              options: ["a) Está em movimento uniforme", "b) Aceleração constante", "c) Soma das forças é zero", "d) Velocidade máxima", "e) Sem movimento"], answer: 2 },
+            { question: "32. Qual é a unidade de medida da pressão?", 
+              options: ["a) Pascal", "b) Joule", "c) Watt", "d) Newton", "e) Ampere"], answer: 0 },
+            { question: "33. Qual a lei fundamental da hidrodinâmica?", 
+              options: ["a) Lei de Ohm", "b) Lei de Bernoulli", "c) Segunda Lei de Newton", "d) Princípio de Pascal", "e) Lei de Kirchhoff"], answer: 1 },
+            { question: "34. O que define a lei de Ohm?", 
+              options: ["a) I = R/V", "b) V = IR", "c) R = IV", "d) P = VI", "e) I = P/R"], answer: 1 },
+            { question: "35. Como é medida a potência elétrica?", 
+              options: ["a) Newton", "b) Watt", "c) Joule", "d) Ampere", "e) Ohm"], answer: 1 },
+            { question: "36. Em uma associação em série, a resistência total é:", 
+              options: ["a) A soma das resistências", "b) Menor que a menor resistência", "c) A maior resistência", "d) A média das resistências", "e) A menor resistência"], answer: 0 },
+            { question: "37. O que é um curto-circuito?", 
+              options: ["a) Alta resistência", "b) Baixa corrente", "c) Queda de voltagem", "d) Corrente muito alta", "e) Nenhum circuito"], answer: 3 },
+            { question: "38. O que é um capacitor elétrico?", 
+              options: ["a) Armazena corrente", "b) Gera corrente", "c) Armazena energia elétrica", "d) Reduz voltagem", "e) Aumenta a resistência"], answer: 2 },
+            { question: "39. Qual é a função de um gerador elétrico?", 
+              options: ["a) Armazenar corrente", "b) Gerar energia elétrica", "c) Reduzir resistência", "d) Aumentar corrente", "e) Regular voltagem"], answer: 1 },
+            { question: "40. O que é eletromagnetismo?", 
+              options: ["a) A interação entre eletricidade e magnetismo", "b) Apenas magnetismo", "c) Apenas corrente contínua", "d) Fluxo magnético constante", "e) Geração de luz"], answer: 0 },
+            { question: "41. Quem descobriu a indução magnética?", 
+              options: ["a) Einstein", "b) Maxwell", "c) Faraday", "d) Newton", "e) Oersted"], answer: 2 },
+            { question: "42. O que é fluxo magnético?", 
+              options: ["a) Campo elétrico em movimento", "b) Movimento da carga elétrica", "c) Campo magnético atravessando uma área", "d) Corrente elétrica constante", "e) Luz visível"], answer: 2 },
+            { question: "43. Qual é a função de um núcleo instável?", 
+              options: ["a) Gera energia solar", "b) Decai radioativamente", "c) Não tem massa", "d) É estável ao longo do tempo", "e) Absorve partículas"], answer: 1 },
+            { question: "44. O que são partículas elementares?", 
+              options: ["a) Átomos", "b) Moléculas", "c) Prótons, nêutrons e elétrons", "d) Íons", "e) Compostos químicos"], answer: 2 },
+            { question: "45. O que é a lei de Faraday?", 
+              options: ["a) Conservação de energia", "b) Força e aceleração", "c) Indução eletromagnética", "d) Corrente elétrica constante", "e) Pressão em fluidos"], answer: 2 },
+            { question: "46. Como funciona a datação por carbono-14?", 
+              options: ["a) Mede a energia do núcleo", "b) Calcula a massa do átomo", "c) Mede o decaimento radioativo do carbono", "d) Gera luz visível", "e) Aumenta a resistência"], answer: 2 },
+            { question: "47. O que define a experiência de Oersted?", 
+              options: ["a) Descoberta do campo elétrico", "b) Descoberta do campo magnético em volta da corrente", "c) Criação do eletroímã", "d) Descoberta do próton", "e) Descoberta do elétron"], answer: 1 },
+            { question: "48. O que são leis de Kirchhoff?", 
+              options: ["a) Descrevem a queda de corrente", "b) Regem a conservação de energia em circuitos", "c) Medem resistência", "d) Descrevem a inércia", "e) Medem a pressão"], answer: 1 },
+            { question: "49. Qual é a principal aplicação dos radioisótopos?", 
+              options: ["a) Geração de eletricidade", "b) Radioterapia", "c) Estabilização de núcleos", "d) Redução de resistência", "e) Produção de luz"], answer: 1 }, ];
+            
+            // Continue até 30 questões
+    
+        function loadQuestions() {
+            const questionsContainer = document.getElementById('questions');
+            questions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.classList.add('question-container');
+                div.innerHTML = `<p>${q.question}</p>`;
+                q.options.forEach((option, i) => {
+                    div.innerHTML += `
+                        <label>
+                            <input type="radio" name="question${index}" value="${i}">
+                            ${option}
+                        </label>`;
+                });
+                questionsContainer.appendChild(div);
+            });
+        }
+
+        function calculateScore() {
+            let score = 0;
+        
+            // Verifica cada questão e incrementa a pontuação se a resposta estiver correta
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                }
+            });
+        
+            // Calcula a porcentagem da pontuação final
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('score').innerText = percentage.toFixed(2) + '%';
+        
+            // Exibe a seção de resultado
+            document.getElementById('result').classList.remove('hidden');
+        }
+        
+        function showAnswers() {
+            const password = document.getElementById('password').value;
+        
+            // Verifica se a senha inserida está correta
+            if (password === 'SimuladoFisica2ºB') {
+                const answerDetails = document.getElementById('answerDetails');
+                answerDetails.classList.remove('hidden');
+                answerDetails.innerHTML = '<h3>Respostas Detalhadas:</h3>';
+        
+                // Gera a lista de respostas e explicações
+                questions.forEach((q, index) => {
+                    answerDetails.innerHTML += `
+                        <div class="answer-detail">
+                            <p><strong>Questão ${index + 1}:</strong> ${q.question}</p>
+                            <p><strong>Resposta Correta:</strong> ${q.options[q.answer]}</p>
+                            <p><strong>Explicação:</strong> ${getExplanation(index)}</p>
+                        </div>`;
+                });
+            } else {
+                // Exibe um alerta se a senha estiver incorreta
+                alert('Senha incorreta. Tente novamente.');
+            }
+        }
+        
+        function getExplanation(index) {
+            const explanations = [
+                "A força é medida em Newton, conforme a segunda lei de Newton (F = ma).",
+                "A aceleração da gravidade na Terra é aproximadamente 9,8 m/s².",
+                "A energia cinética é dada por (mv²)/2, onde m é a massa e v é a velocidade.",
+                "Em um MRU, a velocidade é constante, pois não há aceleração.",
+                "Trabalho é medido em Joules (J), pois é uma forma de energia.",
+                "A primeira lei de Newton trata da inércia: um corpo em repouso tende a permanecer em repouso.",
+                "Potência é a razão entre energia e tempo, medida em Watts.",
+                "A fórmula da energia potencial gravitacional é mgh.",
+                "Impulso é definido como a força multiplicada pelo tempo de aplicação.",
+                "A potência é medida em Watts (W).",
+                "A velocidade da luz no vácuo é de aproximadamente 300.000 km/s.",
+                "O momento linear é dado por mv (massa vezes velocidade).",
+                "Um vetor tem módulo e direção, sendo uma grandeza vetorial.",
+                "Em uma colisão elástica, a energia cinética se conserva.",
+                "A força centrípeta é aquela que age em direção ao centro de um movimento circular.",
+                "A frequência é medida em Hertz (Hz).",
+                "A segunda lei de Newton é F = ma.",
+                "A terceira lei de Newton é a lei da ação e reação.",
+                "A pressão é medida em Pascals (Pa).",
+                "Um ciclo completo de uma onda é chamado de período.",
+                "Um corpo em equilíbrio estático tem a soma das forças igual a zero.",
+                "A pressão é medida em Pascal, unidade no SI.",
+                "A lei de Bernoulli descreve a conservação de energia em fluidos.",
+                "A lei de Ohm é V = IR, onde V é a voltagem, I a corrente, e R a resistência.",
+                "A potência elétrica é medida em Watts.",
+                "A resistência total em série é a soma das resistências.",
+                "Um curto-circuito ocorre quando a resistência é muito baixa e a corrente é alta.",
+                "Os capacitores armazenam energia elétrica em um campo elétrico.",
+                "Os geradores elétricos convertem energia mecânica em elétrica.",
+                "O eletromagnetismo trata da interação entre eletricidade e magnetismo.",
+                "Faraday descobriu a indução eletromagnética.",
+                "O fluxo magnético é o produto do campo magnético e a área perpendicular a ele.",
+                "Núcleos instáveis sofrem decaimento radioativo.",
+                "Partículas elementares são prótons, nêutrons e elétrons.",
+                "A lei de Faraday descreve a indução eletromagnética.",
+                "A datação por carbono-14 mede o decaimento radioativo do carbono.",
+                "A experiência de Oersted mostrou a relação entre eletricidade e magnetismo.",
+                "As leis de Kirchhoff regem a conservação de energia e corrente em circuitos.",
+                "Os radioisótopos são usados principalmente em radioterapia.",
+                "A instabilidade nuclear ocorre quando um núcleo decai radioativamente."
+            ];
+            return explanations[index];
+        }
+        

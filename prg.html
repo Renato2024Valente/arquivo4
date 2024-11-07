@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Concreto Armado</title>
+    <style>
+        /* CSS */
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #444;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #ddd;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
+        input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        #resultado {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Engenharia Civil - Cálculos de Concreto Armado</h1>
+            <nav id="menu">
+                <ul>
+                    <li><a href="#" id="calcConcreto">Cálculo de Concreto</a></li>
+                    <li><a href="#" id="addPrograma">Adicionar Programa</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="conteudo">
+            <h2>Cálculo de Concreto Armado</h2>
+            <form id="formConcreto">
+                <label for="volume">Volume de concreto (m³):</label>
+                <input type="number" id="volume" step="0.01" required>
+
+                <label for="fck">Fck (Resistência à compressão - MPa):</label>
+                <input type="number" id="fck" step="0.01" required>
+
+                <label for="aco">Taxa de aço (%)</label>
+                <input type="number" id="aco" step="0.01" required>
+
+                <button type="submit">Calcular</button>
+            </form>
+
+            <div id="resultado"></div>
+        </main>
+    </div>
+
+    <script>
+        // Função para realizar o cálculo do concreto armado
+        document.getElementById('formConcreto').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const volume = parseFloat(document.getElementById('volume').value);
+            const fck = parseFloat(document.getElementById('fck').value);
+            const aco = parseFloat(document.getElementById('aco').value);
+
+            const pesoConcreto = 2500; // kg/m³ (valor típico)
+            const pesoAco = 7850; // kg/m³
+
+            const massaConcreto = volume * pesoConcreto;
+            const massaAco = (aco / 100) * volume * pesoAco;
+
+            const resultado = `
+                <p>Massa total de concreto: ${massaConcreto.toFixed(2)} kg</p>
+                <p>Massa total de aço: ${massaAco.toFixed(2)} kg</p>
+            `;
+
+            document.getElementById('resultado').innerHTML = resultado;
+        });
+
+        // Função para adicionar novos programas dinamicamente
+        document.getElementById('addPrograma').addEventListener('click', function () {
+            const novoItem = prompt('Digite o nome do novo programa:');
+            if (novoItem) {
+                const menu = document.getElementById('menu').querySelector('ul');
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = "#";
+                a.textContent = novoItem;
+                li.appendChild(a);
+                menu.appendChild(li);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Digital e Foto com PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            padding: 10px;
+            width: 90%;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        #capture-button, #register-button, #identify-button, #save-pdf-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        #capture-button:hover, #register-button:hover, #identify-button:hover, #save-pdf-button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Cadastro de Digital e Foto</h1>
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Nome completo" required>
+    </div>
+    <div class="form-group">
+        <input type="number" id="idade" placeholder="Idade" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="escola" placeholder="Escola" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="serie" placeholder="Série" required>
+    </div>
+    <video id="camera" autoplay></video>
+    <canvas id="canvas"></canvas>
+    <button id="capture-button">Capturar Digital</button>
+    <button id="capture-photo-button">Capturar Foto</button>
+    <button id="register-button">Cadastrar</button>
+    <button id="identify-button">Identificar Digital</button>
+    <button id="save-pdf-button">Salvar em PDF</button>
+    <p id="result">Posicione sua digital e tire a foto.</p>
+</div>
+
+<script>
+    const video = document.getElementById('camera');
+    const canvas = document.getElementById('canvas');
+    const captureButton = document.getElementById('capture-button');
+    const capturePhotoButton = document.getElementById('capture-photo-button');
+    const registerButton = document.getElementById('register-button');
+    const identifyButton = document.getElementById('identify-button');
+    const savePdfButton = document.getElementById('save-pdf-button');
+    const result = document.getElementById('result');
+    let capturedImage = null;
+    let capturedPhoto = null; // Para armazenar a foto capturada
+
+    // Função para acessar a câmera do dispositivo
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+        } catch (error) {
+            result.innerText = 'Erro ao acessar a câmera!';
+            console.error('Erro ao acessar a câmera:', error);
+        }
+    }
+
+    // Captura a imagem da digital
+    captureButton.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        capturedImage = canvas.toDataURL('image/png'); // Armazena a imagem da digital
+        localStorage.setItem('capturedImage', capturedImage); // Armazena a digital no localStorage
+        result.innerText = 'Imagem da digital capturada!';
+    });
+
+    // Captura a foto do usuário
+    capturePhotoButton.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        capturedPhoto = canvas.toDataURL('image/png'); // Armazena a foto capturada
+        localStorage.setItem('capturedPhoto', capturedPhoto); // Armazena a foto no localStorage
+        result.innerText = 'Foto do usuário capturada!';
+    });
+
+    // Função para registrar os dados no localStorage
+    registerButton.addEventListener('click', () => {
+        const name = document.getElementById('name').value;
+        const idade = document.getElementById('idade').value;
+        const escola = document.getElementById('escola').value;
+        const serie = document.getElementById('serie').value;
+
+        if (!name || !idade || !escola || !serie) {
+            result.innerText = 'Por favor, preencha todos os campos!';
+            return;
+        }
+
+        if (!capturedImage || !capturedPhoto) {
+            result.innerText = 'Por favor, capture a imagem da digital e a foto antes de cadastrar!';
+            return;
+        }
+
+        // Criar objeto com os dados do usuário
+        const userData = {
+            name,
+            idade,
+            escola,
+            serie,
+            fingerprint: capturedImage, // Armazena a imagem da digital
+            photo: capturedPhoto // Armazena a foto do usuário
+        };
+
+        // Armazenar no localStorage
+        localStorage.setItem('fingerprint-' + name, JSON.stringify(userData));
+        result.innerText = 'Usuário cadastrado com sucesso!';
+    });
+
+    // Função para identificar a digital no localStorage
+    identifyButton.addEventListener('click', () => {
+        const storedImage = localStorage.getItem('capturedImage'); // Recupera a imagem da digital armazenada
+
+        if (!storedImage) {
+            result.innerText = 'Por favor, capture a imagem da digital antes de identificar!';
+            return;
+        }
+
+        const keys = Object.keys(localStorage);
+        let identifiedUser = null;
+
+        for (let key of keys) {
+            if (key.startsWith('fingerprint-')) {
+                const userData = JSON.parse(localStorage.getItem(key));
+                if (userData.fingerprint === storedImage) {
+                    identifiedUser = userData;
+                    break;
+                }
+            }
+        }
+
+        if (identifiedUser) {
+            result.innerText = `Digital reconhecida! Bem-vindo, ${identifiedUser.name}. Idade: ${identifiedUser.idade}, Escola: ${identifiedUser.escola}, Série: ${identifiedUser.serie}.`;
+        } else {
+            result.innerText = 'Digital não identificada.';
+        }
+    });
+
+    // Função para salvar os dados em PDF usando jsPDF
+    savePdfButton.addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const name = document.getElementById('name').value;
+        const idade = document.getElementById('idade').value;
+        const escola = document.getElementById('escola').value;
+        const serie = document.getElementById('serie').value;
+
+        doc.text(`Nome: ${name}`, 10, 10);
+        doc.text(`Idade: ${idade}`, 10, 20);
+        doc.text(`Escola: ${escola}`, 10, 30);
+        doc.text(`Série: ${serie}`, 10, 40);
+
+        if (capturedImage) {
+            doc.addImage(capturedImage, 'PNG', 10, 50, 50, 50); // Adiciona a imagem da digital ao PDF
+        }
+
+        if (capturedPhoto) {
+            doc.addImage(capturedPhoto, 'PNG', 70, 50, 50, 50); // Adiciona a foto do usuário ao PDF
+        }
+
+        doc.save('cadastro_usuario.pdf'); // Salva o PDF
+    });
+
+    // Inicializa a câmera ao carregar a página
+    startCamera();
+</script>
+
+</body>
+</html>

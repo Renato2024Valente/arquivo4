@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problematização 7º Ano - 3º Bimestre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .question {
+            margin: 20px 0;
+        }
+
+        .question p {
+            font-weight: bold;
+        }
+
+        .answer {
+            display: none;
+            background-color: #e0f7fa;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #008cba;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f5f;
+        }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Problematização - 7º Ano (3º Bimestre)</h1>
+
+        <div class="question">
+            <p>1. Uma expressão algébrica é dada por: \(3x + 5 = 20\). Qual é o valor de \(x\)?</p>
+            <button onclick="toggleAnswer('answer1')">Ver Resposta</button>
+            <div class="answer" id="answer1">
+                <p>Passo 1: Isolamos o termo com \(x\):</p>
+                <p>\(3x = 20 - 5\)</p>
+                <p>\(3x = 15\)</p>
+                <p>Passo 2: Dividimos por 3:</p>
+                <p>\(x = \frac{15}{3} = 5\)</p>
+                <p>Resposta: \(x = 5\)</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>2. Um ângulo reto mede 90º. Se um ângulo agudo mede 45º, quanto falta para ele se tornar reto?</p>
+            <button onclick="toggleAnswer('answer2')">Ver Resposta</button>
+            <div class="answer" id="answer2">
+                <p>\(90º - 45º = 45º\)</p>
+                <p>Faltam 45º para o ângulo se tornar reto.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>3. João tem 12 anos e seu irmão tem 6 anos. Qual é a razão entre as idades de João e de seu irmão?</p>
+            <button onclick="toggleAnswer('answer3')">Ver Resposta</button>
+            <div class="answer" id="answer3">
+                <p>A razão entre as idades é:</p>
+                <p>\(\frac{12}{6} = 2\)</p>
+                <p>Ou seja, João é o dobro da idade de seu irmão.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>4. Uma figura retangular tem 8 cm de comprimento e 4 cm de largura. Qual é a área da figura?</p>
+            <button onclick="toggleAnswer('answer4')">Ver Resposta</button>
+            <div class="answer" id="answer4">
+                <p>A área é dada por \(A = comprimento \times largura\).</p>
+                <p>\(A = 8 \times 4 = 32\) cm²</p>
+                <p>Resposta: A área é 32 cm².</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>5. Em uma classe, 30 alunos fizeram uma prova. Se 18 alunos passaram, qual é a porcentagem de aprovação?</p>
+            <button onclick="toggleAnswer('answer5')">Ver Resposta</button>
+            <div class="answer" id="answer5">
+                <p>A porcentagem de aprovação é calculada por:</p>
+                <p>\(\frac{18}{30} \times 100 = 60\%\)</p>
+                <p>Resposta: A porcentagem de aprovação é 60%.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
